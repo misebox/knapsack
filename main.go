@@ -111,7 +111,7 @@ func (k *KnapsackProblemResult) ShowResult(capacity int) ([]int, int, int) {
 	num := len(k.Items)
 	countItems := make([]int, num, num)
 	contents := []*Item{}
-	for j := k.Capacity; j > 0 && k.LastItem[j] != nil; {
+	for j := capacity; j > 0 && k.LastItem[j] != nil; {
 		item := k.LastItem[j]
 		contents = append(contents, item)
 		j -= item.Size
@@ -125,6 +125,8 @@ func (k *KnapsackProblemResult) ShowResult(capacity int) ([]int, int, int) {
 		totalValue += item.Value * cnt
 		fmt.Println(item, "x", cnt)
 	}
+	fmt.Println("Total Size:", totalSize)
+	fmt.Println("Total Value:", totalValue)
 	return countItems, totalSize, totalValue
 }
 
@@ -141,7 +143,6 @@ func main() {
 	fmt.Println("Kind of Items:", num)
 	fmt.Println("Capacity:", limit)
 	knapsack := NewKnapsackProblemSolver(items)
-	_, totalSize, totalValue := knapsack.Solve(limit).ShowResult(limit)
-	fmt.Println("Total Size:", totalSize)
-	fmt.Println("Total Value:", totalValue)
+	solver := knapsack.Solve(limit)
+	solver.ShowResult(limit)
 }
